@@ -12,6 +12,8 @@
   OUR HEADQUARTERS
   Based in Pleasanton, CA, nestled between San Francisco and Silicon Valley, our office features a gourmet kitchen, free healthy lunches served daily, and onsite fitness classes.
   View Menu
+  
+  And add the pdf file to the veevaweeklymenus folder. Or modify the fucntion below to add them in manually
 
 			List<String> filenames = new ArrayList<>();
 
@@ -30,23 +32,31 @@ The PrintUserMenu is a function that you define, which contains sample use cases
         .sorted(Map.Entry.comparingByValue())
         .forEach(System.out::println);
 
-### printRecipeInfo
+### printRecipeInfo / printRandomRecipeInfo
 
-Given a recipe name, Prints the recipe, ingredients, and dish type (meat, vegetarian, main course or side dish)
+Given a recipe name, Prints the recipe, ingredients, and dish type (meat, vegetarian, main course or side dish).
+printRandomRecipeInfo does the same thing, but pritns a randomly selected recipe from the map.
 
     printRecipeInfo("Tandoori Chicken");
+        printRandomRecipeInfo();
 
-### printRecipesThatContainIngredients
+### printRecipesThatContainIngredients / printRecipesThatContainALLIngredients
 
     Given a set of ingredients,
-    also prints the missing ingredients.
+    prints the recipes that contain that set of ingredietns, also prints the missing ingredients.
 
-    (may need to add a nother one that just has "contains one instead of contains all ingredients")
+    printRecipesThatContainIngredients Recipes onlyneed to contain one of the ingredients in the user provided ingreidients lsit instead of all)
+    
+    printRecipesThatContainALLIngredients Recipes must have ALL of the ingredients.
 
-		Set<String> ingredientsOne = new HashSet<>();
+		Set<String> yourIngredientsList = new HashSet<>();
 		
-		ingredientsOne.add("Salt");
-		ingredientsOne.add("Pepper");
-		ingredientsOne.add("Garlic");
-		ingredientsOne.add("Lime");
-		ingredientsOne.add("Olive Oil");
+		yourIngredientsList.add("Salt");
+		yourIngredientsList.add("Pepper");
+		yourIngredientsList.add("Garlic");
+		yourIngredientsList.add("Lime");
+		yourIngredientsList.add("Olive Oil");
+		
+		printRecipesThatContainIngredients(yourIngredientsList);
+		printRecipesThatContainAllIngredients(yourIngredientsList);
+	
