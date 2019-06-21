@@ -45,7 +45,8 @@ printRandomRecipeInfo does the same thing, but pritns a randomly selected recipe
     Given a set of ingredients,
     prints the recipes that contain that set of ingredietns, also prints the missing ingredients.
 
-    printRecipesThatContainIngredients Recipes onlyneed to contain one of the ingredients in the user provided ingreidients lsit instead of all)
+    printRecipesThatContainIngredients Recipes onlyneed to contain one of the ingredients in the
+    user provided ingreidients list instead of all)
     
     printRecipesThatContainALLIngredients Recipes must have ALL of the ingredients.
 
