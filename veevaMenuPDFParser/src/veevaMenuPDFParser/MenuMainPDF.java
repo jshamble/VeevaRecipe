@@ -35,6 +35,8 @@ public class MenuMainPDF {
         .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
         .forEach(System.out::println);*/
 
+        System.out.println(longDashString);
+        
         printRecipeInfo("Tandoori Chicken");
         
 		Set<String> ingredientsOne = new HashSet<>();
@@ -46,7 +48,7 @@ public class MenuMainPDF {
 		ingredientsOne.add("Olive Oil");
 		
 	    printRecipesThatContainIngredients(ingredientsOne);
-	    printRecipesThatContainAllIngredients(ingredientsOne);
+	    //printRecipesThatContainAllIngredients(ingredientsOne);
 	}
 	
 	static Map<String,Integer> IngredientsCount = new HashMap<>();
