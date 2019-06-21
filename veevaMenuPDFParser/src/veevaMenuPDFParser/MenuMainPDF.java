@@ -27,6 +27,8 @@ public class MenuMainPDF {
 
 	public static void printUserMenu()
 	{
+		//Don't forget you can download more veeva menus weekely at https://www.veeva.com/meet-veeva/careers/ => View menu
+		
         System.out.println("\nMost Common Ingredients:\n");
 
         IngredientsCount.entrySet().stream()
