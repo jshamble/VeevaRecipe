@@ -44,10 +44,10 @@ public class MenuMainPDF {
         
 		Set<String> yourIngredientList = new HashSet<>();
 		
-		yourIngredientList.add("Salt");
-		yourIngredientList.add("Pepper");
+		//yourIngredientList.add("Salt");
+		//yourIngredientList.add("Pepper");
+		//yourIngredientList.add("Lime");
 		yourIngredientList.add("Garlic");
-		yourIngredientList.add("Lime");
 		yourIngredientList.add("Olive Oil");
 		
 	    //printRecipesThatContainIngredients(yourIngredientList);
@@ -173,39 +173,59 @@ public class MenuMainPDF {
     
     public static void printRecipesThatContainAllIngredients(Set<String> ingredients)
     {
+    	Map<Integer,ArrayList<String>> recipesWithLeastAmountOfIngredients = new TreeMap<>();
+    	
     	for(Map.Entry<String, Recipe> recipes : recipeAndIngredients.entrySet())
     	{
     			if(recipes.getValue().Ingredients.containsAll(ingredients))
 	    		{
-    	    		System.out.println("Recipe Name: " + recipes.getKey());
-
     	    		if(recipeAndIngredients.get(recipes.getKey()) != null)
     	    		{
-    		    		System.out.println("Recipe Type: " + recipeAndIngredients.get(recipes.getKey()).type);//meat main, vegetarian main, vegetarian side,
-    		    		System.out.print("Recipe Ingredient List: ");//meat main, vegetarian main, vegetarian side,
-    		    		
-    		    		for(String ingredient : recipeAndIngredients.get(recipes.getKey()).Ingredients)
-    		    		{
-    		    			System.out.print(ingredient+",");
-    		    		}
-    		    		System.out.println();
-    		    		
-    		    		Set<String> recipeIngredientsClone = new HashSet<>(recipes.getValue().Ingredients);
-    		    		
+
+    		    		Set<String> recipeIngredientsClone = new HashSet<>(recipeAndIngredients.get(recipes.getKey()).Ingredients);
     		    		recipeIngredientsClone.removeAll(ingredients);
     		    		
-    		    		System.out.print("Missing Ingredients: " + recipeIngredientsClone.size() + "/" + recipeAndIngredients.get(recipes.getKey()).Ingredients.size() + " (" + (int)((recipeIngredientsClone.size()/(float)recipeAndIngredients.get(recipes.getKey()).Ingredients.size())*100.0) + "%)" + " ");
-    		    		
-    		    		for(String ingredient : recipeIngredientsClone)
-    		    		{
-    		    			System.out.print(ingredient+",");
-    		    		}
-    		    		System.out.println();
-        	    		System.out.println(longDashString);
-        	    		
+    	    			ArrayList<String> recipeNames = recipesWithLeastAmountOfIngredients.getOrDefault(recipeIngredientsClone.size(), new ArrayList<String>());
+    	    			recipeNames.add(recipes.getKey());
+    	    			recipesWithLeastAmountOfIngredients.put(recipeIngredientsClone.size(),recipeNames);
     	    		}
-    				
 	    		} 	
+    	}
+    	
+    	Map<Integer,ArrayList<String>> recipesWithLeastAmountOfIngredientsReversed = new TreeMap<>(Collections.reverseOrder());
+    	recipesWithLeastAmountOfIngredientsReversed.putAll(recipesWithLeastAmountOfIngredients);
+    	
+    	for(Map.Entry<Integer,ArrayList<String>> recipes : recipesWithLeastAmountOfIngredientsReversed.entrySet())
+    	{
+    		for(String recipeName : recipes.getValue())
+    		{
+	    		System.out.println("Recipe Name: " + recipeName);
+	
+	    		if(recipeAndIngredients.get(recipeName) != null)
+	    		{
+		    		System.out.println("Recipe Type: " + recipeAndIngredients.get(recipeName).type);//meat main, vegetarian main, vegetarian side,
+		    		System.out.print("Recipe Ingredient List: ");//meat main, vegetarian main, vegetarian side,
+		    		
+		    		for(String ingredient : recipeAndIngredients.get(recipeName).Ingredients)
+		    		{
+		    			System.out.print(ingredient+",");
+		    		}
+		    		System.out.println();
+		    		
+		    		Set<String> recipeIngredientsClone = new HashSet<>(recipeAndIngredients.get(recipeName).Ingredients);
+		    		
+		    		recipeIngredientsClone.removeAll(ingredients);
+		    		
+		    		System.out.print("Missing Ingredients: " + recipeIngredientsClone.size() + "/" + recipeAndIngredients.get(recipeName).Ingredients.size() + " (" + (int)((recipeIngredientsClone.size()/(float)recipeAndIngredients.get(recipeName).Ingredients.size())*100.0) + "%)" + " ");
+	
+		    		for(String ingredient : recipeIngredientsClone)
+		    		{
+		    			System.out.print(ingredient+",");
+		    		}
+		    		System.out.println();
+		    		System.out.println(longDashString);
+	    		}
+    		}
     	}
     }
     
