@@ -20,6 +20,8 @@ import org.apache.pdfbox.text.TextPosition;
 
 
 public class MenuMainPDF {
+	
+	private final static String longDashString = "------------------------------------------------------------------------------------------------------------------------";
 
 	public static void printUserMenu()
 	{
@@ -43,9 +45,8 @@ public class MenuMainPDF {
 		ingredientsOne.add("Lime");
 		ingredientsOne.add("Olive Oil");
 		
-
-
 	    printRecipesThatContainIngredients(ingredientsOne);
+	    printRecipesThatContainAllIngredients(ingredientsOne);
 	}
 	
 	static Map<String,Integer> IngredientsCount = new HashMap<>();
@@ -78,6 +79,49 @@ public class MenuMainPDF {
     {
     	for(Map.Entry<String, Recipe> recipes : recipeAndIngredients.entrySet())
     	{
+    		for(String listIngredient : ingredients)
+    		{
+    			if(recipes.getValue().Ingredients.contains(listIngredient))
+	    		{
+    	    		System.out.println("Recipe Name: " + recipes.getKey());
+
+    	    		if(recipeAndIngredients.get(recipes.getKey()) != null)
+    	    		{
+    		    		System.out.println("Recipe Type: " + recipeAndIngredients.get(recipes.getKey()).type);//meat main, vegetarian main, vegetarian side,
+    		    		System.out.print("Recipe Ingredient List: ");//meat main, vegetarian main, vegetarian side,
+    		    		
+    		    		for(String ingredient : recipeAndIngredients.get(recipes.getKey()).Ingredients)
+    		    		{
+    		    			System.out.print(ingredient+",");
+    		    		}
+    		    		System.out.println();
+    		    		
+    		    		Set<String> recipeIngredientsClone = new HashSet<>(recipes.getValue().Ingredients);
+    		    		
+    		    		recipeIngredientsClone.removeAll(ingredients);
+    		    		
+    		    		System.out.print("Missing Ingredients: " + recipeIngredientsClone.size() + "/" + recipeAndIngredients.get(recipes.getKey()).Ingredients.size() + " ");
+
+    		    		for(String ingredient : recipeIngredientsClone)
+    		    		{
+    		    			System.out.print(ingredient+",");
+    		    		}
+    		    		System.out.println();
+        	    		System.out.println(longDashString);
+    	    		}
+    	    		break;
+    				
+	    		} 	
+    		}
+    	}
+    }
+    
+
+    
+    public static void printRecipesThatContainAllIngredients(Set<String> ingredients)
+    {
+    	for(Map.Entry<String, Recipe> recipes : recipeAndIngredients.entrySet())
+    	{
     			if(recipes.getValue().Ingredients.containsAll(ingredients))
 	    		{
     	    		System.out.println("Recipe Name: " + recipes.getKey());
@@ -104,6 +148,8 @@ public class MenuMainPDF {
     		    			System.out.print(ingredient+",");
     		    		}
     		    		System.out.println();
+        	    		System.out.println(longDashString);
+        	    		
     	    		}
     				
 	    		} 	
