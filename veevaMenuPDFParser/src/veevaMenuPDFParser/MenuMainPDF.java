@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,43 +78,65 @@ public class MenuMainPDF {
     	}
     }
     
+    
+    //rank and print recipes that have the least amoutn of ingredients missing at the top
     public static void printRecipesThatContainIngredients(Set<String> ingredients)
     {
+    	
+    	Map<Integer,ArrayList<String>> recipesWithLeastAmountOfIngredients = new TreeMap<>();
+    	
     	for(Map.Entry<String, Recipe> recipes : recipeAndIngredients.entrySet())
     	{
     		for(String listIngredient : ingredients)
     		{
     			if(recipes.getValue().Ingredients.contains(listIngredient))
 	    		{
-    	    		System.out.println("Recipe Name: " + recipes.getKey());
-
     	    		if(recipeAndIngredients.get(recipes.getKey()) != null)
     	    		{
-    		    		System.out.println("Recipe Type: " + recipeAndIngredients.get(recipes.getKey()).type);//meat main, vegetarian main, vegetarian side,
-    		    		System.out.print("Recipe Ingredient List: ");//meat main, vegetarian main, vegetarian side,
-    		    		
-    		    		for(String ingredient : recipeAndIngredients.get(recipes.getKey()).Ingredients)
-    		    		{
-    		    			System.out.print(ingredient+",");
-    		    		}
-    		    		System.out.println();
-    		    		
-    		    		Set<String> recipeIngredientsClone = new HashSet<>(recipes.getValue().Ingredients);
-    		    		
+
+    		    		Set<String> recipeIngredientsClone = new HashSet<>(recipeAndIngredients.get(recipes.getKey()).Ingredients);
     		    		recipeIngredientsClone.removeAll(ingredients);
     		    		
-    		    		System.out.print("Missing Ingredients: " + recipeIngredientsClone.size() + "/" + recipeAndIngredients.get(recipes.getKey()).Ingredients.size() + " ");
-
-    		    		for(String ingredient : recipeIngredientsClone)
-    		    		{
-    		    			System.out.print(ingredient+",");
-    		    		}
-    		    		System.out.println();
-        	    		System.out.println(longDashString);
+    	    			ArrayList<String> recipeNames = recipesWithLeastAmountOfIngredients.getOrDefault(recipeAndIngredients.get(recipes.getKey()).Ingredients.size()-recipeIngredientsClone.size(), new ArrayList<String>());
+    	    			recipeNames.add(recipes.getKey());
+    	    			recipesWithLeastAmountOfIngredients.put(recipeAndIngredients.get(recipes.getKey()).Ingredients.size()-recipeIngredientsClone.size(),recipeNames);
     	    		}
     	    		break;
-    				
 	    		} 	
+    		}
+    	}
+    	
+    	
+    	for(Map.Entry<Integer,ArrayList<String>> recipes : recipesWithLeastAmountOfIngredients.entrySet())
+    	{
+    		for(String recipeName : recipes.getValue())
+    		{
+	    		System.out.println("Recipe Name: " + recipeName);
+	
+	    		if(recipeAndIngredients.get(recipeName) != null)
+	    		{
+		    		System.out.println("Recipe Type: " + recipeAndIngredients.get(recipeName).type);//meat main, vegetarian main, vegetarian side,
+		    		System.out.print("Recipe Ingredient List: ");//meat main, vegetarian main, vegetarian side,
+		    		
+		    		for(String ingredient : recipeAndIngredients.get(recipeName).Ingredients)
+		    		{
+		    			System.out.print(ingredient+",");
+		    		}
+		    		System.out.println();
+		    		
+		    		Set<String> recipeIngredientsClone = new HashSet<>(recipeAndIngredients.get(recipeName).Ingredients);
+		    		
+		    		recipeIngredientsClone.removeAll(ingredients);
+		    		
+		    		System.out.print("Missing Ingredients: " + recipeIngredientsClone.size() + "/" + recipeAndIngredients.get(recipeName).Ingredients.size() + " ");
+	
+		    		for(String ingredient : recipeIngredientsClone)
+		    		{
+		    			System.out.print(ingredient+",");
+		    		}
+		    		System.out.println();
+		    		System.out.println(longDashString);
+	    		}
     		}
     	}
     }
