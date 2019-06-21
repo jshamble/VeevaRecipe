@@ -48,8 +48,8 @@ public class MenuMainPDF {
 		ingredientsOne.add("Lime");
 		ingredientsOne.add("Olive Oil");
 		
-	    printRecipesThatContainIngredients(ingredientsOne);
-	    //printRecipesThatContainAllIngredients(ingredientsOne);
+	   // printRecipesThatContainIngredients(ingredientsOne);
+	    printRecipesThatContainAllIngredients(ingredientsOne);
 	}
 	
 	static Map<String,Integer> IngredientsCount = new HashMap<>();
@@ -74,6 +74,7 @@ public class MenuMainPDF {
 	    			System.out.print(ingredient+",");
 	    		}
 	    		System.out.println();
+	    		System.out.println(longDashString);
     		}
     	}
     }
@@ -97,17 +98,19 @@ public class MenuMainPDF {
     		    		Set<String> recipeIngredientsClone = new HashSet<>(recipeAndIngredients.get(recipes.getKey()).Ingredients);
     		    		recipeIngredientsClone.removeAll(ingredients);
     		    		
-    	    			ArrayList<String> recipeNames = recipesWithLeastAmountOfIngredients.getOrDefault(recipeAndIngredients.get(recipes.getKey()).Ingredients.size()-recipeIngredientsClone.size(), new ArrayList<String>());
+    	    			ArrayList<String> recipeNames = recipesWithLeastAmountOfIngredients.getOrDefault(recipeIngredientsClone.size(), new ArrayList<String>());
     	    			recipeNames.add(recipes.getKey());
-    	    			recipesWithLeastAmountOfIngredients.put(recipeAndIngredients.get(recipes.getKey()).Ingredients.size()-recipeIngredientsClone.size(),recipeNames);
+    	    			recipesWithLeastAmountOfIngredients.put(recipeIngredientsClone.size(),recipeNames);
     	    		}
     	    		break;
 	    		} 	
     		}
     	}
     	
+    	Map<Integer,ArrayList<String>> recipesWithLeastAmountOfIngredientsReversed = new TreeMap<>(Collections.reverseOrder());
+    	recipesWithLeastAmountOfIngredientsReversed.putAll(recipesWithLeastAmountOfIngredients);
     	
-    	for(Map.Entry<Integer,ArrayList<String>> recipes : recipesWithLeastAmountOfIngredients.entrySet())
+    	for(Map.Entry<Integer,ArrayList<String>> recipes : recipesWithLeastAmountOfIngredientsReversed.entrySet())
     	{
     		for(String recipeName : recipes.getValue())
     		{
@@ -128,7 +131,7 @@ public class MenuMainPDF {
 		    		
 		    		recipeIngredientsClone.removeAll(ingredients);
 		    		
-		    		System.out.print("Missing Ingredients: " + recipeIngredientsClone.size() + "/" + recipeAndIngredients.get(recipeName).Ingredients.size() + " ");
+		    		System.out.print("Missing Ingredients: " + recipeIngredientsClone.size() + "/" + recipeAndIngredients.get(recipeName).Ingredients.size() + " (" + (int)((recipeIngredientsClone.size()/(float)recipeAndIngredients.get(recipeName).Ingredients.size())*100.0) + "%)" + " ");
 	
 		    		for(String ingredient : recipeIngredientsClone)
 		    		{
@@ -195,9 +198,23 @@ public class MenuMainPDF {
 		
 			List<String> filenames = new ArrayList<>();
 
-			filenames.add("../veevaMenuPDFParser/veevaweeklymenus/Menu-Week-of-01.14-01.18.pdf");
-			filenames.add("../veevaMenuPDFParser/veevaweeklymenus/Menu-Week-of-01.28-02.01.pdf");
-			filenames.add("../veevaMenuPDFParser/veevaweeklymenus/Menu-Week-of-02.11-02.15.pdf");
+
+			File folder = new File("../veevaMenuPDFParser/veevaweeklymenus/");
+			File[] listOfFiles = folder.listFiles();
+
+			for (int i = 0; i < listOfFiles.length; i++) {
+			  if (listOfFiles[i].isFile()) {
+				  	if(listOfFiles[i].getName().contains(".pdf"))
+				  	{
+				  		//System.out.println(listOfFiles[i].getPath());
+				  		filenames.add(listOfFiles[i].getPath());
+				  	}
+			  }
+			}
+			
+			//filenames.add("../veevaMenuPDFParser/veevaweeklymenus/Menu-Week-of-01.14-01.18.pdf");
+			//filenames.add("../veevaMenuPDFParser/veevaweeklymenus/Menu-Week-of-01.28-02.01.pdf");
+			//filenames.add("../veevaMenuPDFParser/veevaweeklymenus/Menu-Week-of-02.11-02.15.pdf");
 			
 			for(String filename : filenames)
 			{
