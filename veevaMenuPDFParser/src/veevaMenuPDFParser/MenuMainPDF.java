@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.HashSet;
@@ -39,17 +40,18 @@ public class MenuMainPDF {
         System.out.println(longDashString);
         
         printRecipeInfo("Tandoori Chicken");
+        printRandomRecipeInfo();
         
-		Set<String> ingredientsOne = new HashSet<>();
+		Set<String> yourIngredientList = new HashSet<>();
 		
-		ingredientsOne.add("Salt");
-		ingredientsOne.add("Pepper");
-		ingredientsOne.add("Garlic");
-		ingredientsOne.add("Lime");
-		ingredientsOne.add("Olive Oil");
+		yourIngredientList.add("Salt");
+		yourIngredientList.add("Pepper");
+		yourIngredientList.add("Garlic");
+		yourIngredientList.add("Lime");
+		yourIngredientList.add("Olive Oil");
 		
-	   // printRecipesThatContainIngredients(ingredientsOne);
-	    printRecipesThatContainAllIngredients(ingredientsOne);
+	    //printRecipesThatContainIngredients(yourIngredientList);
+	    printRecipesThatContainAllIngredients(yourIngredientList);
 	}
 	
 	static Map<String,Integer> IngredientsCount = new HashMap<>();
@@ -77,6 +79,29 @@ public class MenuMainPDF {
 	    		System.out.println(longDashString);
     		}
     	}
+    }
+    
+    public static void printRandomRecipeInfo()
+    {
+
+			Random     random    = new Random();
+			List<String> keys      = new ArrayList<String>(recipeAndIngredients.keySet());
+			String      recipeName  = keys.get( random.nextInt(keys.size()) );
+    		    	
+    		System.out.println("Recipe Name: " + recipeName);
+
+    		if(recipeAndIngredients.get(recipeName) != null)
+    		{
+	    		System.out.println("Recipe Type: " + recipeAndIngredients.get(recipeName).type);//meat main, vegetarian main, vegetarian side,
+	    		System.out.print("Recipe Ingredient List: ");//meat main, vegetarian main, vegetarian side,
+	    		
+	    		for(String ingredient : recipeAndIngredients.get(recipeName).Ingredients)
+	    		{
+	    			System.out.print(ingredient+",");
+	    		}
+	    		System.out.println();
+	    		System.out.println(longDashString);
+    		}
     }
     
     
@@ -169,8 +194,8 @@ public class MenuMainPDF {
     		    		
     		    		recipeIngredientsClone.removeAll(ingredients);
     		    		
-    		    		System.out.print("Missing Ingredients: " + recipeIngredientsClone.size() + "/" + recipeAndIngredients.get(recipes.getKey()).Ingredients.size() + " ");
-
+    		    		System.out.print("Missing Ingredients: " + recipeIngredientsClone.size() + "/" + recipeAndIngredients.get(recipes.getKey()).Ingredients.size() + " (" + (int)((recipeIngredientsClone.size()/(float)recipeAndIngredients.get(recipes.getKey()).Ingredients.size())*100.0) + "%)" + " ");
+    		    		
     		    		for(String ingredient : recipeIngredientsClone)
     		    		{
     		    			System.out.print(ingredient+",");
