@@ -1,5 +1,12 @@
 # VeevaRecipe
 
+### Usage:
+
+Add all files to an eclipse project and run.
+
+The PrintUserMenu is a function that you define, which contains sample use cases (call these functions within it).
+A sample of possible methods to modify is provided below
+
 ### Adding More Menu Files
 
  Simply add more menu files to the ArrayList in the main function.
@@ -22,9 +29,6 @@
 			filenames.add("../veevaMenuPDFParser/veevaweeklymenus/Menu-Week-of-02.11-02.15.pdf");
 			
 
-### Usage:
-
-The PrintUserMenu is a function that you define, which contains sample use cases (call these functions within it)
 
 ### Print out most common ingredients
 
