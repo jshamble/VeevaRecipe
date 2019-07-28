@@ -1,5 +1,8 @@
 # VeevaRecipe
 
+dynamic programming: all it is building lookup tables, and updating them with recursion. 
+That's it. make loopkup tables, then lookup the previous value
+
 ### Usage:
 
 Add all files to an eclipse project and run.
